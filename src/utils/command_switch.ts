@@ -1,10 +1,7 @@
-import { Button, mouse, left, right, up, down, Point, straightTo, Region, screen, FileType } from '@nut-tree/nut-js';
+import { Button, mouse, left, right, up, down, Point, straightTo } from '@nut-tree/nut-js';
 import { mouseCommands } from './Interfaces_and_constants';
-import * as fs from 'fs';
+import { scrennFunc } from './screenFunc';
 
-function base64_encode(file: string) {
-  return fs.readFileSync(file, 'base64');
-}
 
 export const commandSwitch = async (command: string) => {
   console.log(command);
@@ -79,23 +76,7 @@ export const commandSwitch = async (command: string) => {
     case mouseCommands.PRNT_SCRN:
       const currentPositionSCRN = await mouse.getPosition();
       try {
-        let xxx = currentPositionSCRN.x - 100;
-        let yyy = currentPositionSCRN.y - 100;
-        if (xxx < 100) {
-          xxx = 100;
-        }
-
-        if (yyy < 100) {
-          yyy = 100;
-        }
-        const scrn = await screen.captureRegion(
-          'screen',
-          new Region(xxx - 100, yyy - 100, 200, 200),
-          FileType.PNG,
-          './screen',
-        );
-        const buffer = base64_encode(scrn);
-        returnedValue = `${commandParam} ${buffer}`;
+        returnedValue =   await scrennFunc(currentPositionSCRN, returnedValue, commandParam )
       } catch {
         console.log('some error maybe something wrong with the coordinates');
       }
