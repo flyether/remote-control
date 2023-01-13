@@ -18,7 +18,7 @@ wss.on('connection', (ws) => {
     const answer = await commandSwitch(command);
 
     if (answer != 'not') {
-      webSocketStream.write(JSON.stringify(answer));
+      webSocketStream.write(answer);
     }
   });
   webSocketStream.on('end', () => {
